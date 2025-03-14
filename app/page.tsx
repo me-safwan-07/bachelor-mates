@@ -64,7 +64,7 @@ export default function Home() {
           animate="animate"
           exit="exit"
           variants={staggerContainer}
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 px-4"
         >
           {[
             {
@@ -164,7 +164,7 @@ export default function Home() {
           animate="animate"
           exit="exit"
           variants={staggerContainer}
-          className="grid gap-8 md:grid-cols-3"
+          className="grid gap-8 md:grid-cols-3 py-4"
         >
           {[
             {
@@ -192,7 +192,7 @@ export default function Home() {
             <motion.div
               key={index}
               variants={fadeIn}
-              className="feature-card"
+              className="feature-card p-4"
               whileHover={{ scale: 1.02 }}
             >
               <div className="flex gap-1 mb-4">
