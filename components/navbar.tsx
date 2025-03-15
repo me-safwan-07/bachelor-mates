@@ -57,10 +57,10 @@ export default function Navbar() {
           {/* Desktop Login/Register Buttons */}
           <div className="hidden md:flex md:gap-2">
             <Button variant="outline" asChild>
-              <Link href="/login">Login</Link>
+              <Link href="/auth/login">Login</Link>
             </Button>
             <Button asChild>
-              <Link href="/register">Register</Link>
+              <Link href="/auth/register">Register</Link>
             </Button>
           </div>
           
@@ -97,12 +97,12 @@ export default function Navbar() {
             ))}
             <li>
               <Button variant="outline" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/auth/login">Login</Link>
               </Button>
             </li>
             <li>
               <Button asChild>
-                <Link href="/register">Register</Link>
+                <Link href="/auth/register">Register</Link>
               </Button>
             </li>
           </ul>
