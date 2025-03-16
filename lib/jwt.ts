@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { env } from "process";
+import { env } from "./env";
 
 
 export const verifyToken = async (token: string, userEmail: string = ""): Promise<JwtPayload> => {
