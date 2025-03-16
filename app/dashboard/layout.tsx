@@ -106,7 +106,7 @@ export default function DashboardLayout({
           </ul>
         </nav>
         <div className="mt-auto border-t p-4">
-          <Button variant="ghost" className="w-full justify-start gap-3" asChild>
+          <Button variant="ghost" className="w-full justify-start gap-3"   >
             <Link href="/">
               <LogOut className="h-4 w-4" />
               {!isCollapsed && <span>Log out</span>}

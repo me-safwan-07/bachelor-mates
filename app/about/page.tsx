@@ -139,10 +139,10 @@ export default function AboutPage() {
               Become part of the Bachelor-Mate community and help us make quality education accessible to all.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <Button size="lg" asChild>
+              <Button size="lg"   >
                 <Link href="/register">Sign Up Now</Link>
               </Button>
-              <Button variant="outline" size="lg" asChild>
+              <Button   size="lg"   >
                 <Link href="/contact">Contact Us</Link>
               </Button>
             </div>

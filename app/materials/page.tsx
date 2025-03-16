@@ -27,7 +27,7 @@ export default function MaterialsPage() {
               className="w-full bg-background pl-8 md:w-[300px] lg:w-[400px]"
             />
           </div>
-          <Button variant="outline" size="sm" className="h-9 gap-1">
+          <Button   size="sm" className="h-9 gap-1">
             <Filter className="h-4 w-4" />
             <span>Filters</span>
           </Button>
@@ -114,7 +114,7 @@ export default function MaterialsPage() {
                     </div>
                   </CardContent>
                   <CardFooter className="flex gap-2">
-                    <Button className="flex-1" asChild>
+                    <Button className="flex-1"   >
                       <Link href={`/materials/notes/${material.id}`}>
                         Download PDF
                       </Link>
@@ -199,7 +199,7 @@ export default function MaterialsPage() {
                     </div>
                   </CardContent>
                   <CardFooter className="flex gap-2">
-                    <Button className="flex-1" asChild>
+                    <Button className="flex-1"   >
                       <Link href={`/materials/question-papers/${paper.id}`}>
                         Download PDF
                       </Link>
@@ -284,7 +284,7 @@ export default function MaterialsPage() {
                     </div>
                   </CardContent>
                   <CardFooter className="flex gap-2">
-                    <Button className="flex-1" asChild>
+                    <Button className="flex-1"   >
                       <Link href={`/materials/syllabus/${syllabus.id}`}>
                         Download PDF
                       </Link>

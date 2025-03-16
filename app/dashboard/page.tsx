@@ -176,7 +176,7 @@ export default function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pb-2">
-                  <Button className="w-full" size="sm" asChild>
+                  <Button className="w-full" size="sm"   >
                     <Link href={`/materials/${index + 1}`}>
                       {material.type.includes("Premium") ? "View Details" : "Download"}
                     </Link>
