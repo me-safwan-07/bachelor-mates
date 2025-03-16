@@ -176,7 +176,7 @@ const Wrapper = ({
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipTrigger   >{children}</TooltipTrigger>
         <TooltipContent side={tooltipSide} sideOffset={tooltipOffset}>
           {tooltip}
         </TooltipContent>

@@ -98,14 +98,14 @@ export function CartSheet() {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <div className="relative inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-accent">
           <ShoppingCart className="h-4 w-4" />
           {cartCount > 0 && (
             <span className="absolute -right-2 -top-2 h-5 w-5 rounded-full bg-primary text-xs text-primary-foreground flex items-center justify-center">
               {cartCount}
             </span>
           )}
-        </Button>
+        </div>
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col sm:max-w-lg">
         <SheetHeader>
@@ -135,7 +135,7 @@ export function CartSheet() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Button
-                        variant="outline"
+                       
                         size="icon"
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       >
@@ -143,14 +143,12 @@ export function CartSheet() {
                       </Button>
                       <span className="w-8 text-center">{item.quantity}</span>
                       <Button
-                        variant="outline"
                         size="icon"
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                       >
                         <Plus className="h-4 w-4" />
                       </Button>
                       <Button
-                        variant="outline"
                         size="icon"
                         onClick={() => removeItem(item.id)}
                       >
