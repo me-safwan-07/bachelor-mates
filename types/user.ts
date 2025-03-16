@@ -9,11 +9,11 @@ export const ZUser = z.object({
     .trim()
     .min(1, { message: "Name should be at least 1 character long" }),
   email: z.string().email(),
-  password: z.string().optional(),
+  // password: z.string().optional(),
   emailVerified: z.date().nullable(),
   imageUrl: z.string().url().nullable(),
   identityProvider: z.enum(["email", "google"]),
-  identityProviderAccountId: z.string().optional(),
+  // identityProviderAccountId: z.string().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
 //   role: ZRole.nullable(),
