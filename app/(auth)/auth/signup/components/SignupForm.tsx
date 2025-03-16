@@ -10,14 +10,6 @@ interface SignupFormProps {
   webAppUrl: string;
   privacyUrl: string | undefined;
   termsUrl: string | undefined;
-  passwordResetEnabled: boolean;
-  emailVerificationDisabled: boolean;
-  emailAuthEnabled: boolean;
-  googleOAuthEnabled: boolean;
-  githubOAuthEnabled: boolean;
-  azureOAuthEnabled: boolean;
-  oidcOAuthEnabled: boolean;
-  oidcDisplayName?: string;
 }
 
 export const SignupForm = ({
@@ -87,7 +79,7 @@ export const SignupForm = ({
           <span className="leading-5 text-slate-500">Have an account?</span>
           <br />
           <Link
-            href={inviteToken ? `/auth/login?callbackUrl=${callbackUrl}` : "/auth/login"}
+            href={"/auth/login"}
             className="font-semibold text-slate-600 underline hover:text-slate-700">
             Log in.
           </Link>

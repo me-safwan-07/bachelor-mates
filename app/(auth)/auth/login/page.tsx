@@ -88,7 +88,7 @@ export default function LoginPage() {
             <Card>
               <CardContent className="pt-4">
                 <div className="grid gap-4">
-                  <Button variant="outline" className="w-full">
+                  <Button className="w-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -107,7 +107,7 @@ export default function LoginPage() {
                     </svg>
                     Google
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button className="w-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"

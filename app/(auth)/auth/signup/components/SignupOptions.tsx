@@ -3,33 +3,23 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { createUser } from "@formbricks/lib/utils/users";
-import { PasswordInput } from "../PasswordInput";
 import { Button } from "@/components/ui/button";
 import { GoogleButton } from "../../components/GoogleButton";
+import { PasswordInput } from "@/components/ui/PasswordInput";
+import { createUser } from "@/lib/utils/users";
 
 interface SignupOptionsProps {
-  emailAuthEnabled: boolean;
   emailFromSearchParams: string;
   setError?: (error: string) => void;
-  emailVerificationDisabled: boolean;
-  passwordResetEnabled: boolean;
-  googleOAuthEnabled: boolean;
-  githubOAuthEnabled: boolean;
-  azureOAuthEnabled: boolean;
-  oidcOAuthEnabled: boolean;
-  inviteToken: string | null;
   callbackUrl: string;
-  oidcDisplayName?: string;
+  inviteToken: string | null;
 }
 
 export const SignupOptions = ({
   emailFromSearchParams,
   setError,
-  emailVerificationDisabled,
-  passwordResetEnabled,
-  inviteToken,
   callbackUrl,
+  inviteToken,
 }: SignupOptionsProps) => {
   const [password, setPassword] = useState<string | null>(null);
   const [showLogin, setShowLogin] = useState(false);
@@ -59,6 +49,7 @@ export const SignupOptions = ({
 
     setSigningUp(true);
 
+
     try {
       await createUser(
         e.target.elements.name.value,
@@ -66,9 +57,7 @@ export const SignupOptions = ({
         e.target.elements.password.value,
         inviteToken
       );
-      const url = emailVerificationDisabled
-        ? `/auth/signup-without-verification-success`
-        : `/auth/verification-requested?email=${encodeURIComponent(e.target.elements.email.value)}`;
+      const url = `/auth/verification-requested?email=${encodeURIComponent(e.target.elements.email.value)}`;
 
       router.push(url);
     } catch (e: any) {
@@ -81,9 +70,7 @@ export const SignupOptions = ({
 
   return (
     <div className="space-y-2">
-      {emailAuthEnabled && (
         <form onSubmit={handleSubmit} ref={formRef} className="space-y-2" onChange={checkFormValidity}>
-          {showLogin && (
             <div>
               <div className="mb-2 transition-all duration-500 ease-in-out">
                 <label htmlFor="name" className="sr-only">
@@ -99,7 +86,7 @@ export const SignupOptions = ({
                     placeholder="Full Name"
                     aria-placeholder="Full Name"
                     required
-                    className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm"
+                    className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm p-2 dark:bg-white text-black darK:text-black"
                   />
                 </div>
               </div>
@@ -135,16 +122,14 @@ export const SignupOptions = ({
                   className="focus:border-brand focus:ring-brand block w-full rounded-md shadow-sm sm:text-sm"
                 />
               </div>
-              {passwordResetEnabled && isPasswordFocused && (
+              
                 <div className="ml-1 text-right transition-all duration-500 ease-in-out">
                   <Link href="/auth/forgot-password" className="hover:text-brand-dark text-xs text-slate-500">
                     Forgot your password?
                   </Link>
                 </div>
-              )}
               {/* <IsPasswordValid password={password} setIsValid={setIsValid} /> */}
             </div>
-          )}
           {showLogin && (
             <Button
               type="submit"
@@ -171,7 +156,6 @@ export const SignupOptions = ({
             </Button>
           )}
         </form>
-      )}
       <GoogleButton inviteUrl={callbackUrl} />
     </div>
   );
