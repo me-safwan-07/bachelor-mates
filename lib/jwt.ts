@@ -3,6 +3,10 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { env } from "./env";
 
 
+export  const createToken = (userId: string, userEmail: string, options = {}): string => {
+    return jwt.sign({ id: userId }, env.NEXTAUTH_SECRET + userEmail, options);
+};
+
 export const verifyToken = async (token: string, userEmail: string = ""): Promise<JwtPayload> => {
     if (!token) {
         throw new Error("No token found");
