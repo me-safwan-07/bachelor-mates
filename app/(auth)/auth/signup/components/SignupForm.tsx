@@ -3,7 +3,7 @@
 import { XCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SignupOptions } from "./SignupOptions";
 
 interface SignupFormProps {
@@ -13,22 +13,12 @@ interface SignupFormProps {
 }
 
 export const SignupForm = ({
-  webAppUrl,
   privacyUrl,
   termsUrl,
 }: SignupFormProps) => {
   const searchParams = useSearchParams();
   const [error, setError] = useState<string>("");
-
-  const inviteToken = searchParams?.get("inviteToken");
-  const callbackUrl = useMemo(() => {
-    if (inviteToken) {
-      return webAppUrl + "/invite?token=" + inviteToken;
-    } else {
-      return webAppUrl;
-    }
-  }, [inviteToken, webAppUrl]);
-
+  
   return (
     <>
       {error && (
@@ -51,8 +41,6 @@ export const SignupForm = ({
         <SignupOptions
           emailFromSearchParams={searchParams?.get("email") || ""}
           setError={setError}
-          inviteToken={inviteToken}
-          callbackUrl={callbackUrl}
         />
         {(termsUrl || privacyUrl) && (
           <div className="mt-3 text-center text-xs text-slate-500">
@@ -69,8 +57,6 @@ export const SignupForm = ({
                 Privacy Policy.
               </Link>
             )}
-            {/*           <br />
-          We&apos;ll occasionally send you account related emails. */}
             <hr className="mx-6 mt-3"></hr>
           </div>
         )}

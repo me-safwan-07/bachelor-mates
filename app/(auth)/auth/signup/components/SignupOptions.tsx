@@ -1,25 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { GoogleButton } from "../../components/GoogleButton";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { createUser } from "@/lib/utils/users";
+import { signIn } from "next-auth/react";
+import { IsPasswordValid } from "./isPasswordValid";
 
 interface SignupOptionsProps {
   emailFromSearchParams: string;
   setError?: (error: string) => void;
-  callbackUrl: string;
-  inviteToken: string | null;
 }
 
 export const SignupOptions = ({
   emailFromSearchParams,
   setError,
-  callbackUrl,
-  inviteToken,
 }: SignupOptionsProps) => {
   const [password, setPassword] = useState<string | null>(null);
   const [showLogin, setShowLogin] = useState(false);
@@ -49,13 +47,11 @@ export const SignupOptions = ({
 
     setSigningUp(true);
 
-
     try {
       await createUser(
         e.target.elements.name.value,
         e.target.elements.email.value,
         e.target.elements.password.value,
-        inviteToken
       );
       const url = `/auth/verification-requested?email=${encodeURIComponent(e.target.elements.email.value)}`;
 
@@ -122,15 +118,16 @@ export const SignupOptions = ({
                   className="focus:border-brand focus:ring-brand block w-full rounded-md shadow-sm sm:text-sm"
                 />
               </div>
-              
-                <div className="ml-1 text-right transition-all duration-500 ease-in-out">
-                  <Link href="/auth/forgot-password" className="hover:text-brand-dark text-xs text-slate-500">
-                    Forgot your password?
-                  </Link>
-                </div>
-              {/* <IsPasswordValid password={password} setIsValid={setIsValid} /> */}
+                {isPasswordFocused && (
+                  <div className="ml-1 text-right transition-all duration-500 ease-in-out">
+                    <Link href="/auth/forgot-password" className="hover:text-brand-dark text-xs text-slate-500">
+                      Forgot your password?
+                    </Link>
+                  </div>
+                )}
+              <IsPasswordValid password={password} setIsValid={setIsValid} />
             </div>
-          {showLogin && (
+          {/* {showLogin && (
             <Button
               type="submit"
               variant="darkCTA"
@@ -139,24 +136,19 @@ export const SignupOptions = ({
               disabled={formRef.current ? !isButtonEnabled || !isValid : !isButtonEnabled}>
               Continue with Email
             </Button>
-          )}
+          )} */}
 
-          {!showLogin && (
             <Button
-              type="button"
-              onClick={() => {
-                setShowLogin(true);
-                setButtonEnabled(false);
-                // Add a slight delay before focusing the input field to ensure it's visible
-                setTimeout(() => nameRef.current?.focus(), 100);
-              }}
+              type="submit"
               variant="darkCTA"
-              className="w-full justify-center">
+              className="w-full justify-center"
+              loading={signingUp}
+              disabled={formRef.current ? !isButtonEnabled || !isValid: !isButtonEnabled}
+            >
               Continue with Email
             </Button>
-          )}
         </form>
-      <GoogleButton inviteUrl={callbackUrl} />
+      <GoogleButton />
     </div>
   );
 };

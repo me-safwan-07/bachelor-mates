@@ -6,17 +6,12 @@ import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/ui/icons/GoogleIcon";
 
 export const GoogleButton = ({
-  text = "Continue with Google",
-  inviteUrl,
+  text = "Continue with Google"
 }: {
   text?: string;
-  inviteUrl?: string | null;
 }) => {
   const handleLogin = async () => {
-    await signIn("google", {
-      redirect: true,
-      callbackUrl: inviteUrl ? inviteUrl : "/", // redirect after login to /
-    });
+    await signIn("google");
   };
 
   return (
