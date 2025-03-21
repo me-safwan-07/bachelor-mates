@@ -34,7 +34,7 @@ export const Button: React.ForwardRefExoticComponent<
 > = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>((props: ButtonProps, forwardedRef) => {
   const {
     loading = false,
-    variant = "primary",
+    variant = "darkCTA",
     size = "base",
     StartIcon,
     startIconClassName,

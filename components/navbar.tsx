@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Search, BookOpen, Menu, X } from "lucide-react";
 import { CartSheet } from "@/components/cart-sheet";
 import { cn } from "@/lib/utils";
@@ -52,7 +51,7 @@ export default function Navbar() {
             <span className="sr-only">Search</span>
           </Button>
           <CartSheet />
-          <ModeToggle />
+          {/* <ModeToggle />  // theme darkmode or lightmode */}
           
           {/* Desktop Login/Register Buttons */}
           <div className="hidden md:flex md:gap-2">
