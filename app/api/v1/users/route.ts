@@ -12,7 +12,7 @@ export const POST = async (request: Request) => {
         user = await createUser(user);
 
         return Response.json(user);
-    } catch (e) {
+    } catch (e: any) {
         if (e.message === "User with this email already exists") {
             return Response.json(
                 {
