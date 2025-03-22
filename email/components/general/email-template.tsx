@@ -19,7 +19,7 @@ export function EmailTemplate({ content }: EmailTemplateProps) {
                                 <Img 
                                     alt="Bachelormate logo"
                                     className="mx-auto w-80"
-                                    src="https://s3.eu-central-1.amazonaws.com/listmonk-formbricks/Formbricks-Light-transparent.png"
+                                    src="https://i.ibb.co/dwJDvK9J/Bachloremates-logo.png"
                                 />
                             </Link>
                         </Section>

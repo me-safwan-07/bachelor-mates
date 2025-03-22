@@ -2,7 +2,7 @@
 
 import { signIn } from "next-auth/react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { GoogleIcon } from "@/components/ui/icons/GoogleIcon";
 
 export const GoogleButton = ({

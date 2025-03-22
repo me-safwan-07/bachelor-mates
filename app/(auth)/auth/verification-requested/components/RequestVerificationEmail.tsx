@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
 import { resendVerificationEmail } from '@/lib/utils/users';
 import React, { useEffect } from 'react'
 import toast from 'react-hot-toast';

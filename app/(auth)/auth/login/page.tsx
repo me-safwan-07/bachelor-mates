@@ -1,5 +1,11 @@
+import { Metadata } from "next";
 import { FormWrapper } from "../components/FormWrapper"
 import { SigninForm } from "./components/SigninForm";
+
+export const metadata: Metadata ={
+  title: "Login",
+  description: "Bachloremates login page"
+}
 
 const Page = async () => {
   return (

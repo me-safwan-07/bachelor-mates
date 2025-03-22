@@ -28,7 +28,7 @@ export const getUserByEmail = (email: string): Promise<TUser | null> =>
         validateInputs([email, z.string().email()]);
   
         try {
-          const user = await prisma.user.findFirst({
+          const user = await prisma.user.findUnique({
             where: {
               email,
             },

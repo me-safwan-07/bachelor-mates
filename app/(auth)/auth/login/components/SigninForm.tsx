@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -25,7 +25,6 @@ export const SigninForm = () => {
         setLoggingIn(true);
 
         try {
-            console.log(data)
             const signInResponse = await signIn("credentials", {
                 callbackUrl: searchParams?.get("callbackUrl") || "/",
                 email: data.email.toLowerCase(),
@@ -75,7 +74,7 @@ export const SigninForm = () => {
             <div className="text-center">
                 <h1 className="mb-4 text-slate-700">Login to your account</h1>
                 <div className="space-y-2">
-                    <form onSubmit={formMethods.handleSubmit(onSubmit)} className="">
+                    <form onSubmit={formMethods.handleSubmit(onSubmit)} className="space-y-2 text-slate-800">
                         <div className="mb-2 transition-all duration-500 ease-in-out">
                             <label htmlFor="email" className="sr-only">
                                 Email address

@@ -1,5 +1,6 @@
 import { Container, Heading, Link, Text } from "@react-email/components";
 import { EmailButton } from "../general/email-button";
+import { EmailFooter } from "../general/email-footer";
 
 interface VerificationEmailProps {
   verifyLink: string;
@@ -23,6 +24,7 @@ export function VerificationEmail({ verifyLink, verificationRequestLink }: Verif
                     Request new verification
                 </Link>
             </Text>
+            <EmailFooter />
         </Container>
     );
 }

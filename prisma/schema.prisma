@@ -23,7 +23,7 @@ model User {
   createdAt                 DateTime         @default(now()) @map(name: "created_at")
   updatedAt                 DateTime         @updatedAt @map(name: "updated_at")
   name                      String
-  email                     String           
+  email                     String           @unique
   emailVerified             DateTime?        @map(name: "email_verified")
   imageUrl                  String?
   password                  String?
@@ -32,7 +32,7 @@ model User {
   accounts                  Account[]
   // role                      Role?
 
-  @@index([email])
+  // @@index([email])
 }
 
 model Account {

@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { GoogleButton } from "../../components/GoogleButton";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { createUser } from "@/lib/utils/users";
-import { signIn } from "next-auth/react";
 import { IsPasswordValid } from "./isPasswordValid";
 
 interface SignupOptionsProps {
@@ -20,7 +19,6 @@ export const SignupOptions = ({
   setError,
 }: SignupOptionsProps) => {
   const [password, setPassword] = useState<string | null>(null);
-  const [showLogin, setShowLogin] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [signingUp, setSigningUp] = useState(false);
@@ -40,7 +38,6 @@ export const SignupOptions = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
     if (!isValid) {
       return;
     }
@@ -66,7 +63,7 @@ export const SignupOptions = ({
 
   return (
     <div className="space-y-2">
-        <form onSubmit={handleSubmit} ref={formRef} className="space-y-2" onChange={checkFormValidity}>
+        <form onSubmit={handleSubmit} ref={formRef} className="space-y-2 text-slate-800" onChange={checkFormValidity}>
             <div>
               <div className="mb-2 transition-all duration-500 ease-in-out">
                 <label htmlFor="name" className="sr-only">
@@ -127,16 +124,6 @@ export const SignupOptions = ({
                 )}
               <IsPasswordValid password={password} setIsValid={setIsValid} />
             </div>
-          {/* {showLogin && (
-            <Button
-              type="submit"
-              variant="darkCTA"
-              className="w-full justify-center"
-              loading={signingUp}
-              disabled={formRef.current ? !isButtonEnabled || !isValid : !isButtonEnabled}>
-              Continue with Email
-            </Button>
-          )} */}
 
             <Button
               type="submit"

@@ -3,17 +3,12 @@
 import { z } from "zod";
 import { FormWrapper } from "../components/FormWrapper";
 import { RequestVerificationEmail } from "./components/RequestVerificationEmail";
-import { useEffect } from "react";
 
 const VerificationPageSchema = z.string().email();
 
-
-const Page = (params) => {
-    const email = params.searchParams.email;
-
-    useEffect(() => {
-        console.log(email)
-    }, [email])
+const Page = async ({ searchParams }: { searchParams: Promise<{ email: string }> }) => {
+    const params = await searchParams;
+    const email = params?.email;
 
     try {
         const parsedEmail = VerificationPageSchema.parse(email).toLowerCase();
@@ -37,7 +32,7 @@ const Page = (params) => {
                 </>
             </FormWrapper>
         )
-    } catch (error) {
+    } catch (e: any) {
         return (
             <FormWrapper>
                 <p className="text-center">Invalid email address</p>
@@ -45,5 +40,4 @@ const Page = (params) => {
         )
     }
 }
-
 export default Page;

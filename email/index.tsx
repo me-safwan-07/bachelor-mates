@@ -5,6 +5,8 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { render } from "@react-email/render";
 import { EmailTemplate } from "./components/general/email-template";
 import { VerificationEmail } from "./components/auth/verification-email";
+import { ForgotPasswordEmail } from "./components/auth/forgot-password-email";
+import { PasswordResetNotifyEmail } from "./components/auth/password-reset-notify-email";
 
 export const IS_SMTP_CONFIGURED = Boolean(SMTP_HOST && SMTP_PORT);
 
@@ -19,10 +21,6 @@ interface SendEmailDataProps {
 interface TEmailUser {
     id: string;
     email: string;
-}
-
-const getEmailSubject = (production: string): string => {
-    return `${production} User Insights - Last Week by Bachelore Mate`
 }
 
 export const sendEmail = async (emailData: SendEmailDataProps) => {
@@ -42,15 +40,19 @@ export const sendEmail = async (emailData: SendEmailDataProps) => {
     const emailDefaults = {
         from: `Bachelore mate <${MAIL_FORM ?? "noreply@bacheloremate.com"}>`,
     };
-    await transporter.sendMail({ ...emailDefaults, ...emailData});
+    try {
+        await transporter.sendMail({ ...emailDefaults, ...emailData});
+        console.log("email sended successfully")
+    } catch (e:any) {
+        console.error(e.message);
+    }
 }
+
 export const sendVerificationEmail = async (user: TEmailUser) => {
     const token = createToken(user.id, user.email, {
         expiresIn: "1d",
     });
-    const verifyLink = `${WEBAPP_URL}/auth/verify?token=${encodeURIComponent(
-        user.email
-    )}`;
+    const verifyLink = `${WEBAPP_URL}/auth/verify?token=${encodeURIComponent(token)}`;
     const verificationRequestLink = `${WEBAPP_URL}/auth/verification-requested?email=${encodeURIComponent(
         user.email
     )}`;
@@ -59,4 +61,24 @@ export const sendVerificationEmail = async (user: TEmailUser) => {
         subject: "Please verify your email to use Bacheloremate",
         html: await render(EmailTemplate({ content: VerificationEmail({ verificationRequestLink, verifyLink }) }))
     })
+};
+
+export const sendForgotPasswordEmail = async (user: TEmailUser) => {
+    const token = createToken(user.id, user.email, {
+        expiresIn: "1d",
+    });
+    const verifyLink = `${WEBAPP_URL}/auth/forgot-password/reset?token=${encodeURIComponent(token)}`;
+    await sendEmail({
+        to: user.email,
+        subject: "Reset your Bacheloremate password",
+        html: await render(EmailTemplate({ content: ForgotPasswordEmail({ verifyLink }) })),
+    });
+};
+
+export const sendPasswordResetNotifyEmail = async (user: TEmailUser) => {
+    await sendEmail({
+        to: user.email,
+        subject: "Your Bacheloremates password has been changed",
+        html: await render(EmailTemplate({ content: PasswordResetNotifyEmail() })),
+    });
 };
