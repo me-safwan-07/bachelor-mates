@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAtom } from "jotai";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";

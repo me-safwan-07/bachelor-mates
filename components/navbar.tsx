@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Search, BookOpen, Menu, X } from "lucide-react";
 import { CartSheet } from "@/components/cart-sheet";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "./ui/Button";
 
 const routes = [
   { href: "/", label: "Home" },

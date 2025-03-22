@@ -1,15 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { FileText, Search, Shield, Zap, ArrowRight, BookMarked, Download, Star } from "lucide-react";
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer, FadeIn, SlideIn, ScaleIn } from "@/components/animations";
+import { FadeIn, SlideIn, ScaleIn } from "@/components/animations";
 import Image from "next/image";
+import { Button } from "@/components/ui/Button";
 
+const staggerContainer = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 20 }
+};
 
 export default function Home() {
-  
   return (
     <div className="flex flex-col">
       {/* Hero Section with Gradient and Pattern */}
@@ -35,7 +48,8 @@ export default function Home() {
             </FadeIn>
             <ScaleIn delay={0.6}>
               <div className="mt-8 flex flex-col gap-4 min-[400px]:flex-row justify-center">
-                <Button size="lg" className="gap-2 hover-lift gradient-hover">
+                <Button
+                 size="lg" className="gap-2 hover-lift gradient-hover">
                   <Link href="/materials">
                     Get Started <ArrowRight className="h-4 w-4" />
                   </Link>
