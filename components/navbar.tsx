@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Search, BookOpen, Menu, X } from "lucide-react";
 import { CartSheet } from "@/components/cart-sheet";
 import { cn } from "@/lib/utils";
+import { Button } from "./ui/Button";
 
 const routes = [
   { href: "/", label: "Home" },
@@ -47,26 +46,25 @@ export default function Navbar() {
         </nav>
         
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" className="hidden md:flex">
+          <Button size="icon" className="hidden md:flex">
             <Search className="h-4 w-4" />
             <span className="sr-only">Search</span>
           </Button>
           <CartSheet />
-          <ModeToggle />
+          {/* <ModeToggle />  // theme darkmode or lightmode */}
           
           {/* Desktop Login/Register Buttons */}
           <div className="hidden md:flex md:gap-2">
-            <Button variant="outline" asChild>
-              <Link href="/login">Login</Link>
+            <Button>
+              <Link href="/auth/login">Login</Link>
             </Button>
-            <Button asChild>
-              <Link href="/register">Register</Link>
+            <Button>
+              <Link href="/auth/signup">Register</Link>
             </Button>
           </div>
           
           {/* Mobile Menu Button */}
           <Button
-            variant="outline"
             size="icon"
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -96,13 +94,13 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <Button variant="outline" asChild>
-                <Link href="/login">Login</Link>
+              <Button>
+                <Link href="/auth/login">Login</Link>
               </Button>
             </li>
             <li>
-              <Button asChild>
-                <Link href="/register">Register</Link>
+              <Button>
+                <Link href="/auth/signup">Register</Link>
               </Button>
             </li>
           </ul>

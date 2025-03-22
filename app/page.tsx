@@ -1,11 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { FileText, Search, Shield, Zap, ArrowRight, BookMarked, Download, Star } from "lucide-react";
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer, FadeIn, SlideIn, ScaleIn } from "@/components/animations";
+import { FadeIn, SlideIn, ScaleIn } from "@/components/animations";
 import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+
+const staggerContainer = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 20 }
+};
 
 export default function Home() {
   return (
@@ -33,12 +48,13 @@ export default function Home() {
             </FadeIn>
             <ScaleIn delay={0.6}>
               <div className="mt-8 flex flex-col gap-4 min-[400px]:flex-row justify-center">
-                <Button size="lg" className="gap-2 hover-lift gradient-hover" asChild>
+                <Button
+                 size="lg" className="gap-2 hover-lift gradient-hover">
                   <Link href="/materials">
                     Get Started <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="hover-lift" asChild>
+                <Button size="lg" className="hover-lift">
                   <Link href="/premium">View Premium Notes</Link>
                 </Button>
               </div>
@@ -233,12 +249,12 @@ export default function Home() {
                   Join thousands of students who are already benefiting from our comprehensive study resources.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 min-[400px]:flex-row justify-center">
-                  <Button size="lg" variant="secondary" className="gap-2 hover-lift" asChild>
+                  <Button size="lg" variant="secondary" className="gap-2 hover-lift">
                     <Link href="/register">
                       Get Started Now <ArrowRight className="h-4 w-4" />
                     </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10 hover-lift" asChild>
+                  <Button size="lg" className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10 hover-lift">
                     <Link href="/materials">Browse Materials</Link>
                   </Button>
                 </div>

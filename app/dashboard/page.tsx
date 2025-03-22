@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { Download, FileText, BookMarked, ShoppingCart, Clock, TrendingUp } from "lucide-react";
 
@@ -176,7 +176,7 @@ export default function DashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pb-2">
-                  <Button className="w-full" size="sm" asChild>
+                  <Button className="w-full" size="sm"   >
                     <Link href={`/materials/${index + 1}`}>
                       {material.type.includes("Premium") ? "View Details" : "Download"}
                     </Link>

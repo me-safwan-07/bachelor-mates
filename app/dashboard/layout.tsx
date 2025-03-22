@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { BookOpen, Home, FileText, BookMarked, ShoppingCart, User, Settings, LogOut } from "lucide-react";
 
@@ -63,7 +63,7 @@ export default function DashboardLayout({
             {!isCollapsed && <span className="font-bold">Bachelor-Mate</span>}
           </Link>
           <Button
-            variant="ghost"
+            variant="secondary"
             size="icon"
             className="ml-auto hidden md:flex"
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -106,7 +106,7 @@ export default function DashboardLayout({
           </ul>
         </nav>
         <div className="mt-auto border-t p-4">
-          <Button variant="ghost" className="w-full justify-start gap-3" asChild>
+          <Button variant="secondary" className="w-full justify-start gap-3"   >
             <Link href="/">
               <LogOut className="h-4 w-4" />
               {!isCollapsed && <span>Log out</span>}

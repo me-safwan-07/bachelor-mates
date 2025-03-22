@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { ShoppingCart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface CartButtonProps {
   itemId: string;
-  variant?: "default" | "outline" | "secondary";
+  variant?: "default" | "DarkATC" | "secondary";
   size?: "default" | "sm" | "lg" | "icon";
 }
 
-export function CartButton({ itemId, variant = "outline", size = "icon" }: CartButtonProps) {
+export function CartButton({ itemId }: CartButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -46,8 +46,8 @@ export function CartButton({ itemId, variant = "outline", size = "icon" }: CartB
 
   return (
     <Button
-      variant={variant}
-      size={size}
+      // variant={variant}
+      // size={size}
       onClick={addToCart}
       disabled={isLoading}
       className="ml-2"

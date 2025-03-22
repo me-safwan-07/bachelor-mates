@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -34,7 +34,7 @@ export default function PremiumPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button variant="outline" size="sm" className="h-9 gap-1">
+          <Button   size="sm" className="h-9 gap-1">
             <Filter className="h-4 w-4" />
             <span>Filters</span>
           </Button>
@@ -184,7 +184,7 @@ export default function PremiumPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="w-full" asChild>
+                    <Button className="w-full"   >
                       <Link href={`/premium/notes/${index + 1}`}>
                         Purchase Now
                       </Link>
@@ -261,7 +261,7 @@ export default function PremiumPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="w-full" asChild>
+                    <Button className="w-full"   >
                       <Link href={`/premium/notes/${index + 1}`}>
                         Purchase Now
                       </Link>
@@ -338,7 +338,7 @@ export default function PremiumPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="w-full" asChild>
+                    <Button className="w-full"   >
                       <Link href={`/premium/notes/${index + 1}`}>
                         Purchase Now
                       </Link>
@@ -415,7 +415,7 @@ export default function PremiumPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="w-full" asChild>
+                    <Button className="w-full"   >
                       <Link href={`/premium/notes/${index + 1}`}>
                         Purchase Now
                       </Link>
