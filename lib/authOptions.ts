@@ -7,8 +7,8 @@ import { verifyPassword } from "./auth/utils";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "./constants";
 import { verifyToken } from "./jwt";
 import { createUser, getUserByEmail, updateUser } from "./user/service";
-import { Prisma } from "@prisma/client";
-type IdentityProvider = "email" | "google";
+// import { Prisma } from "@prisma/client";
+// type IdentityProvider = "email" | "google";
 
 
 export const authOptions: NextAuthOptions = {
