@@ -1,4 +1,3 @@
-import type { IdentityProvider } from "@prisma/client";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -8,6 +7,8 @@ import { verifyPassword } from "./auth/utils";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "./constants";
 import { verifyToken } from "./jwt";
 import { createUser, getUserByEmail, updateUser } from "./user/service";
+import { Prisma } from "@prisma/client";
+type IdentityProvider = "email" | "google";
 
 
 export const authOptions: NextAuthOptions = {
@@ -151,10 +152,9 @@ export const authOptions: NextAuthOptions = {
       if (!user.email || account.type !== "oauth") {
         return false;
       }
-
       if (account.provider) {
-        const provider = account.provider.toLowerCase().replace("-", "") as IdentityProvider;
-        // check if accounts for this provider / account Id alreday exists
+        const provider = account.provider.toLowerCase().replace("-", "");
+        // check if accounts for this provider / account Id already exists
         const existingUserWithAccount = await prisma.user.findFirst({
           include: {
             accounts: {
