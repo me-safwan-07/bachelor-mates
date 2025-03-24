@@ -1,8 +1,8 @@
 import { prisma } from "@/prisma";
 import { validateInputs } from "../validate";
-import { Prisma } from "@prisma/client";
-import { DatabaseError } from "@/types/errors";
+// import { Prisma } from "@prisma/client";
 import { TAccount, TAccountInput, ZAccountInput } from "@/types/account";
+// import { DatabaseError } from "@/types/errors";
 
 
 export const createAccount = async (accountData: TAccountInput): Promise<TAccount> => {
@@ -15,9 +15,9 @@ export const createAccount = async (accountData: TAccountInput): Promise<TAccoun
     });
     return account;
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw new DatabaseError(error.message);
-    }
+    // if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    //   throw new DatabaseError(error.message);
+    // }
 
     throw error;
   }
