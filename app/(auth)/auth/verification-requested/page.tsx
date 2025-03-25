@@ -6,9 +6,8 @@ import { RequestVerificationEmail } from "./components/RequestVerificationEmail"
 
 const VerificationPageSchema = z.string().email();
 
-const Page = async ({ searchParams }: { searchParams: Promise<{ email: string }> }) => {
-    const params = await searchParams;
-    const email = params?.email;
+const Page = ({ searchParams }: { searchParams: { email: string } }) => {
+    const email = searchParams?.email;
 
     try {
         const parsedEmail = VerificationPageSchema.parse(email).toLowerCase();
@@ -20,7 +19,8 @@ const Page = async ({ searchParams }: { searchParams: Promise<{ email: string }>
                         Please confirm your email address
                     </h1>
                     <p className="text-center text-sm text-slate-700">
-                        We sent an email to <span className="font-semibold italic">{parsedEmail}</span>. Please click the link in the email to activate your account.
+                        We sent an email to <span className="font-semibold italic">{parsedEmail}</span>. Please click the 
+                        link in the email to activate your account.
                     </p>
                     <hr className="my-4" />
                     <p className="text-center text-xs text-slate-500">
@@ -32,7 +32,8 @@ const Page = async ({ searchParams }: { searchParams: Promise<{ email: string }>
                 </>
             </FormWrapper>
         )
-    } catch (e: any) {
+    } catch (error: unknown) {
+        console.error('Email validation error:', error);
         return (
             <FormWrapper>
                 <p className="text-center">Invalid email address</p>
