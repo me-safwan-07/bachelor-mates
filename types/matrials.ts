@@ -1,0 +1,1 @@
+export type TMatrialTabs = "questionspaper" | "QuestionBank" | "notes"
