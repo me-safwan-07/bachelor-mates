@@ -77,14 +77,14 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <nav className="absolute top-16 left-0 w-full bg-background shadow-md md:hidden">
+        <nav className="absolute top-16 left-0 w-full bg-slate-400 shadow-md md:hidden">
           <ul className="flex flex-col items-center gap-4 p-4">
             {routes.map((route) => (
               <li key={route.href}>
                 <Link
                   href={route.href}
                   className={cn(
-                    "text-lg font-medium transition-colors hover:text-primary",
+                    "text-lg font-medium transition-colors hover:text-black",
                     pathname === route.href ? "text-foreground" : "text-muted-foreground"
                   )}
                   onClick={() => setIsMenuOpen(false)}
