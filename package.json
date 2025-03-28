@@ -56,13 +56,13 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.0.14",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^20",
+    "@types/node": "^20.17.28",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
     "prisma": "^6.5.0",
-    "typescript": "^5"
+    "typescript": "^5.8.2"
   }
 }
