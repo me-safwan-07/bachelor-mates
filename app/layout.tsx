@@ -1,6 +1,8 @@
 // import { SpeedInsights } from "@vercel/speed-insights/next";
+import Navbar from "@/components/navbar";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import Footer from "@/components/footer";
 
 export default function RootLayout({
   children,
@@ -18,7 +20,9 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="theme-preference"
         >
+          <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
