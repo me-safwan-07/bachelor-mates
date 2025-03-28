@@ -52,8 +52,9 @@ export const PasswordResetForm = () => {
                             id="email" 
                             autoComplete="email"
                             required
-                            className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm text-black"
-                        />
+                            placeholder="example@gmail.com"
+                            className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm p-2 dark:bg-white text-black darK:text-black"
+                            />
                     </div>
                 </div>
 

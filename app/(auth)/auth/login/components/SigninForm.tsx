@@ -86,7 +86,7 @@ export const SigninForm = () => {
                                 required
                                 placeholder="abc@email.com"
                                 defaultValue={searchParams?.get("email") || ""}
-                                className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm"
+                                className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm p-2 dark:bg-white text-black darK:text-black"
                                 {...formMethods.register("email", {
                                     required: true,
                                     pattern: /\S+@\S+\.\S+/,

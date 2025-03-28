@@ -95,8 +95,8 @@ export const SignupOptions = ({
                   required
                   placeholder="work@email.com"
                   defaultValue={emailFromSearchParams}
-                  className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm"
-                />
+                  className="focus:border-brand focus:ring-brand block w-full rounded-md border-slate-300 shadow-sm sm:text-sm p-2 dark:bg-white text-black darK:text-black"
+                  />
               </div>
               <div className="transition-all duration-500 ease-in-out">
                 <label htmlFor="password" className="sr-only">

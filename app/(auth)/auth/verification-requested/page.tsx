@@ -3,11 +3,13 @@
 import { z } from "zod";
 import { FormWrapper } from "../components/FormWrapper";
 import { RequestVerificationEmail } from "./components/RequestVerificationEmail";
+import { useSearchParams } from "next/navigation";
 
 const VerificationPageSchema = z.string().email();
 
-const Page = ({ searchParams }: { searchParams: { email: string } }) => {
-    const email = searchParams?.email;
+const Page = () => {
+    const searchParams = useSearchParams();
+    const email = searchParams.get('email');
 
     try {
         const parsedEmail = VerificationPageSchema.parse(email).toLowerCase();
@@ -38,7 +40,7 @@ const Page = ({ searchParams }: { searchParams: { email: string } }) => {
             <FormWrapper>
                 <p className="text-center">Invalid email address</p>
             </FormWrapper>
-        )
+        );
     }
-}
+};
 export default Page;
