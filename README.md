@@ -2,7 +2,8 @@
 
 Your ultimate study material platform for bachelor's students. Access high-quality notes, previous year papers, and premium resources to excel in your academics.
 
-![Bachelor-Mate Preview](https://i.ibb.co/dwJDvK9J/Bachloremates-logo.png)
+![Bachelor-Mate Preview](./public/image-removebg-preview.jpg
+)
 
 ## Features ✨
 
