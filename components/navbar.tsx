@@ -50,7 +50,7 @@ export default function Navbar() {
             <Search className="h-4 w-4" />
             <span className="sr-only">Search</span>
           </Button>
-          <CartSheet />
+          {/* <CartShee t /> */}
           {/* <ModeToggle />  // theme darkmode or lightmode */}
           
           {/* Desktop Login/Register Buttons */}
