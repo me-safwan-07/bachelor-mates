@@ -56,6 +56,20 @@ const CardDescription = React.forwardRef<
 ));
 CardDescription.displayName = 'CardDescription';
 
+const CardAction =  React.forwardRef<
+HTMLDivElement,
+React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }) => (
+  <div
+    className={cn(
+      'absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-accent hover:text-accent-foreground',
+      className
+    )}
+    {...props}
+  />
+));
+CardAction.displayName = 'CardAction';
+
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -82,5 +96,6 @@ export {
   CardFooter,
   CardTitle,
   CardDescription,
+  CardAction,
   CardContent,
 };
