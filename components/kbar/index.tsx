@@ -1,3 +1,5 @@
+'use client';
+
 import { navItems } from '@/constants/data';
 import { useRouter } from 'next/navigation';
 import { useMemo } from "react";
