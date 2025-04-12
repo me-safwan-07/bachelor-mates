@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className="flex h-dvh flex-col transition-all ease-in-out">
         <NextTopLoader showSpinner={false} />
         <NuqsAdapter>
-          <Navbar />
+          {/* <Navbar /> */}
           <Toaster />
           {children}
           <Footer />
