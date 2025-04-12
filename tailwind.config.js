@@ -6,7 +6,20 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        '2xl': "1440px",
+      },
+    },
     extend: {
+      borderRadius: {
+        sm: 'calc(var(--radius) - 4px)',
+        md: 'calc(var(--radius) - 2px)',
+        lg: 'var(--radius)',
+        xl: 'calc(var(--radius) + 4px)',
+      },
       animation: {
         "ping-slow": "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
         shake: "shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both",
@@ -14,6 +27,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         fadeIn: "fadeIn 0.2s ease-out",
         fadeOut: "fadeOut 0.2s ease-out",
+        reveal: 'reveal 0.4s ease-in-out forwards',
       },
       blur: {
         xxs: "0.33px",
@@ -28,6 +42,37 @@ module.exports = {
         "card-lg": "0px 2px 51px -19px rgba(30,41,59,0.40)",
       },
       colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        popover: 'var(--popover)',
+        'popover-foreground': 'var(--popover-foreground)',
+        primary: 'var(--primary)',
+        'primary-foreground': 'var(--primary-foreground)',
+        secondary: 'var(--secondary)',
+        'secondary-foreground': 'var(--secondary-foreground)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
+        accent: 'var(--accent)',
+        'accent-foreground': 'var(--accent-foreground)',
+        destructive: 'var(--destructive)',
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
+        'chart-1': 'var(--chart-1)',
+        'chart-2': 'var(--chart-2)',
+        'chart-3': 'var(--chart-3)',
+        'chart-4': 'var(--chart-4)',
+        'chart-5': 'var(--chart-5)',
+        sidebar: 'var(--sidebar)',
+        'sidebar-foreground': 'var(--sidebar-foreground)',
+        'sidebar-primary': 'var(--sidebar-primary)',
+        'sidebar-primary-foreground': 'var(--sidebar-primary-foreground)',
+        'sidebar-accent': 'var(--sidebar-accent)',
+        'sidebar-accent-foreground': 'var(--sidebar-accent-foreground)',
+        'sidebar-border': 'var(--sidebar-border)',
+        'sidebar-ring': 'var(--sidebar-ring)',
         brand: {
           DEFAULT: "#00E6CA",
           light: "#00E6CA",
@@ -86,6 +131,16 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        reveal: {
+          from: {
+            clipPath: 'circle(0% at var(--x, 50%) var(--y, 50%))',
+            opacity: '0.7',
+          },
+          to: {
+            clipPath: 'circle(150% at var(--x, 50%) var(--y, 50%))',
+            opacity: '1',
+          },
+        },
       },
       width: {
         "sidebar-expanded": "4rem",
@@ -106,7 +161,11 @@ module.exports = {
       gridTemplateColumns: {
         20: "repeat(20, minmax(0, 1fr))",
       },
+      outlineColor: {
+        ring: "oklch(0.708 0 0 / 0.5)", // 50% opacity 
+      }
     },
+    
   },
   safelist: [{ pattern: /max-w-./, variants: "sm" }],
   darkMode: "class", // Set dark mode to use the 'class' strategy
