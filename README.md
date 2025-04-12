@@ -91,7 +91,6 @@ MAIL_FROM="no-reply@bacheloremate.com"
 4. Database setup:
 ```bash
 npx prisma generate
-npx prisma migrate dev
 ```
 
 5. Run development server:
