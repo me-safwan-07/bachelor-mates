@@ -2,7 +2,7 @@
   "name": "bachelor-mates",
   "version": "0.1.0",
   "private": true,
-  "scripts": {{
+  "scripts": {
     "install": "npm install --force",
     "dev": "next dev",
     "build": "prisma generate && next build",
