@@ -1,27 +1,28 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "out"
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/next",
+        "config": {
+          "distDir": ".next",
+          "installCommand": "npm install --legacy-peer-deps",
+          "buildCommand": "npm run build"
+        }
       }
-    }
-  ],
-  "build": {
-    "env": {
-      "NODE_VERSION": "18.x"
-    }
-  },
-  "scripts": {
-    "install": "npm install --legacy-peer-deps",
-    "build": "npm run build"
-  },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/out/$1"
-    }
-  ]
-}
+    ],
+    "build": {
+      "env": {
+        "NODE_VERSION": "18.x"
+      }
+    },
+    "routes": [
+      {
+        "handle": "filesystem"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/$1"
+      }
+    ]
+  }
