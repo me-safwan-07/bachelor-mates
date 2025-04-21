@@ -1,4 +1,5 @@
 import "server-only";
+
 import { TUser, TUserCreateInput, TUserUpdateInput, ZId, ZUserUpdateInput } from "@/types/user"
 import { validateInputs } from "../validate"
 import { DatabaseError, ResourceNotFoundError } from "@/types/errors";
@@ -17,10 +18,34 @@ const responseSelection = {
   imageUrl: true,
   createdAt: true,
   updatedAt: true,
-//   role: true,
+  role: true,
   identityProvider: true,
 };
 
+export const getUser = async (id: string): Promise<TUser | null> => {
+  validateInputs([id, ZId]);
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: responseSelection,
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new DatabaseError(error.message);
+    }
+
+    throw error;
+  }
+};
 
 export const getUserByEmail = (email: string): Promise<TUser | null> =>
     cache(

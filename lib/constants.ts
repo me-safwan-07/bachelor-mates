@@ -10,6 +10,8 @@ export const WEBAPP_URL = "http://localhost:3000"
 export const PRIVACY_URL = env.PRIVACY_URL;
 export const TERMS_URL = env.TERMS_URL;
 
+export const NEXTAUTH_SECRET = env.NEXTAUTH_SECRET;
+
 export const GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID;
 export const GOOGLE_CLIENT_SECRET = env.GOOGLE_CLIENT_SECRET;
 
