@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { FadeIn, SlideIn, ScaleIn } from "@/components/animations";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-
 const staggerContainer = {
   initial: {},
   animate: {
@@ -21,6 +20,7 @@ const fadeIn = {
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: 20 }
 };
+
 
 export default function Home() {
   return (

@@ -8,17 +8,17 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "2rem", // 32px
       screens: {
         '2xl': "1440px",
       },
     },
     extend: {
       borderRadius: {
-        sm: 'calc(var(--radius) - 4px)',
-        md: 'calc(var(--radius) - 2px)',
-        lg: 'var(--radius)',
-        xl: 'calc(var(--radius) + 4px)',
+        sm: 'calc(var(--radius) - 4px)', // radius - 4px
+        md: 'calc(var(--radius) - 2px)', // radius - 2px
+        lg: 'var(--radius)',             // base radius
+        xl: 'calc(var(--radius) + 4px)', // radius + 4px
       },
       animation: {
         "ping-slow": "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
@@ -110,26 +110,23 @@ module.exports = {
           "10%, 90%": {
             transform: "translate3d(-1px, 0, 0)",
           },
-
           "20%, 80%": {
-            transform: "translate3d(2px, 0, 0),",
+            transform: "translate3d(2px, 0, 0)",
           },
-
           "30%, 50%, 70%": {
             transform: "translate3d(-4px, 0, 0)",
           },
-
           "40%, 60%": {
             transform: "translate3d(4px, 0, 0)",
           },
         },
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
         reveal: {
           from: {
@@ -143,14 +140,14 @@ module.exports = {
         },
       },
       width: {
-        "sidebar-expanded": "4rem",
-        "sidebar-collapsed": "14rem",
+        "sidebar-expanded": "4rem",    // 64px
+        "sidebar-collapsed": "14rem",   // 224px
       },
       transitionProperty: {
         width: "width",
       },
       maxWidth: {
-        "8xl": "88rem",
+        "8xl": "88rem", // 1408px
       },
       screens: {
         xs: "430px",
@@ -162,12 +159,14 @@ module.exports = {
         20: "repeat(20, minmax(0, 1fr))",
       },
       outlineColor: {
-        ring: "oklch(0.708 0 0 / 0.5)", // 50% opacity 
+        ring: "oklch(0.708 0 0 / 0.5)", // 50% opacity
       }
     },
-    
   },
   safelist: [{ pattern: /max-w-./, variants: "sm" }],
-  darkMode: "class", // Set dark mode to use the 'class' strategy
-  plugins: [import("@tailwindcss/forms"), import("@tailwindcss/typography")],
-}
+  darkMode: "class",
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography")
+  ],
+};

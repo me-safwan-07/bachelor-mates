@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const ZId = z.string().cuid2();
 
+const ZRole = z.enum(["USER", "ADMIN"]);
+
 export const ZUser = z.object({
   id: z.string(),
   name: z
@@ -16,7 +18,7 @@ export const ZUser = z.object({
   // identityProviderAccountId: z.string().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
-//   role: ZRole.nullable(),
+  role: ZRole.nullable(),
 });
 
 export type TUser = z.infer<typeof ZUser>;
@@ -25,7 +27,7 @@ export const ZUserUpdateInput = z.object({
     name: z.string().optional(),
     email: z.string().email().optional(),
     emailVerified: z.date().nullish(),
-    // role: ZRole.optional()
+    role: ZRole.optional(),
     imageUrl: z.string().nullish(),
 });
 

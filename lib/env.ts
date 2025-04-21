@@ -4,7 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
     server: {
         DEBUG: z.enum(["1", "0"]).optional(),
-        DATABASE_URL: z.string().url(),
+        DATABASE_URL: z.string(),
         GOOGLE_CLIENT_ID: z.string().optional(),
         GOOGLE_CLIENT_SECRET: z.string().optional(),
         MAIL_FROM: z.string().email().optional(),
@@ -25,6 +25,9 @@ export const env = createEnv({
             .url()
             .optional()
             .or(z.string().refine((str) => str === "")),
+        ADMIN_EMAIL: z.string().email().optional(),
+        ADMIN_NAME: z.string().optional(),
+        ADMIN_PASSWORD: z.string().optional(),
     },
     runtimeEnv: {
         DATABASE_URL: process.env.DATABASE_URL,
@@ -41,5 +44,8 @@ export const env = createEnv({
         SMTP_SECURE_ENABLED: process.env.SMTP_SECURE_ENABLED,
         SMTP_USER: process.env.SMTP_USER,
         MAIL_FROM: process.env.MAIL_FROM,
+        ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+        ADMIN_NAME: process.env.ADMIN_NAME,
+        ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
     }
 })

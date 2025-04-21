@@ -8,7 +8,7 @@ import { cva } from "class-variance-authority";
 type SVGComponent = React.FunctionComponent<React.SVGProps<SVGSVGElement>> | LucideIcon;
 
 export type ButtonBaseProps = {
-  variant?: "highlight" | "primary" | "secondary" | "minimal" | "warn" | "alert" | "darkCTA" | "ghost" | "link";
+  variant?: "highlight" | "primary" | "secondary" | "minimal" | "warn" | "alert" | "darkCTA" | "ghost" | "outline" | "link" | "destructive";
   size?: "base" | "sm" | "lg" | "fab" | "icon";
   loading?: boolean;
   disabled?: boolean;
@@ -107,6 +107,14 @@ export const Button: React.ForwardRefExoticComponent<
             (disabled
               ? "text-slate-400 dark:text-slate-500 bg-slate-200 dark:bg-slate-800"
               : "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"),
+        variant === "outline" &&
+          (disabled
+            ? "text-slate-400 dark:text-slate-500 bg-slate-200 dark:bg-slate-800"
+            : "text-slate-700 hover:text-slate-600 bg-slate-200 hover:bg-slate-100 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-1  focus:bg-slate-300 focus:ring-neutral-500"),
+        variant === "destructive" &&
+          (disabled
+            ? "text-slate-400 dark:text-slate-500 bg-slate-200 dark:bg-slate-800"
+            : "text-red-700 hover:text-red-600 bg-red-100 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:bg-red-50 focus:ring-red-500"),
         // set not-allowed cursor if disabled
         loading ? "cursor-wait" : disabled ? "cursor-not-allowed" : "",
         props.className

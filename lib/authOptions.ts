@@ -7,9 +7,7 @@ import { verifyPassword } from "./auth/utils";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "./constants";
 import { verifyToken } from "./jwt";
 import { createUser, getUserByEmail, updateUser } from "./user/service";
-// import { Prisma } from "@prisma/client";
-// type IdentityProvider = "email" | "google";
-
+import { cookies } from "next/headers";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -41,6 +39,7 @@ export const authOptions: NextAuthOptions = {
           user = await prisma.user.findUnique({
             where: { email: credentials?.email },
           });
+          console.log("User found", user);
         } catch (e) {
           console.error(e);
           throw Error("Internal server error. Please try again later");
@@ -54,17 +53,26 @@ export const authOptions: NextAuthOptions = {
             throw new Error("No user matches the provided credentials");
           }
 
-          const isValid = await verifyPassword(credentials.password, user.password);
-          
-          if (!isValid) {
-            throw new Error("No user matches the provided credentials");
+          if (user.role !== "ADMIN") {
+            const isValid = await verifyPassword(credentials.password, user.password);
+            
+            if (!isValid) {
+              throw new Error("No user matches the provided credentials");
+            }
           }
+
+          // if (!user.emailVerified && user.role !== "ADMIN") {
+          //   throw new Error("Email Verification is pending");
+          //   // .push(`/auth/verification-requested?email=${user.email}`);
+            
+          // }
 
           return {
             id: user.id,
             email: user.email,
             emailVerified: user.emailVerified,
             image: user.imageUrl,
+            role: user.role,
           };
       },
     }),
@@ -107,7 +115,9 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Email already verified");
         }
 
-        user = await updateUser(user.id, { emailVerified: new Date() });
+        if (user.role !== "ADMIN") {  
+          user = await updateUser(user.id, { emailVerified: new Date() });
+        }
 
         return user;
       },
@@ -120,9 +130,13 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
+  session: {
+    maxAge: 3600,
+  },
   callbacks: {
     async jwt({ token }) {
       const existingUser = await getUserByEmail(token?.email!);
+      console.log("JWT", token, existingUser);
 
       if (!existingUser) {
         return token;
@@ -142,8 +156,12 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async signIn({ user, account }: any) {
+      // const cookieStore = await cookies();
+
+      // const callbackUrl = cookieStore.get("next-auth.callback-url")?.value || "";
+
       if (account.provider === "credentials" || account.provider === "token") {
-        if (!user.emailVerified) {
+        if (!user.emailVerified && user.role !== "ADMIN") {
           throw new Error("Email Verification is pending");
         }
         return true;
@@ -152,6 +170,7 @@ export const authOptions: NextAuthOptions = {
       if (!user.email || account.type !== "oauth") {
         return false;
       }
+
       if (account.provider) {
         const provider = account.provider.toLowerCase().replace("-", "");
         // check if accounts for this provider / account Id already exists

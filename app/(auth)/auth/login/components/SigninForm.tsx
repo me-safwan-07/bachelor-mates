@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { GoogleButton } from "../../components/GoogleButton";
-import { XCircleIcon } from "lucide-react";
+import { User, XCircleIcon } from "lucide-react";
 
 
 interface TSigninFormState {
@@ -40,11 +40,14 @@ export const SigninForm = () => {
             if (signInResponse?.error) {
                 setLoggingIn(false);
                 setSignInError(signInResponse.error);
+                console.log(signInResponse);
+                console.error("Error signing in:", signInResponse.error);
                 return;
             }
 
             if (!signInResponse?.error) {
                 router.push(searchParams?.get("callbackUrl") || "/");
+                console.log("Sign in successful:", signInResponse);
             }
         } catch (error: any) {
             const errorMessage = error.toString();

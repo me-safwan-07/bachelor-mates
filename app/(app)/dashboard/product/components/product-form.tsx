@@ -1,6 +1,5 @@
 'use client';
 
-import { FileUploader } from '@/components/file-uploader';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -11,6 +10,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
+import { ImageUpload } from '@/components/ui/image-upload.tsx';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -20,62 +20,71 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Product } from '@/constants/mock-api';
+// import { toast } from '@/hooks/use-toast';
+import { TNotes, TNotesInput, ZNotes, ZNotesInput } from '@/types/notes';
+// import { Product } from '@/constants/mock-api';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import * as z from 'zod';
+import axios from 'axios';
+import { v2 as cloudinary } from 'cloudinary';
+import Image from 'next/image';
 
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp'
-];
-
-const formSchema = z.object({
-  image: z
-    .any()
-    .refine((files) => files?.length == 1, 'Image is required.')
-    .refine(
-      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-      `Max file size is 5MB.`
-    )
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      '.jpg, .jpeg, .png and .webp files are accepted.'
-    ),
-  name: z.string().min(2, {
-    message: 'Product name must be at least 2 characters.'
-  }),
-  category: z.string(),
-  price: z.number(),
-  description: z.string().min(10, {
-    message: 'Description must be at least 10 characters.'
-  })
-});
-
-export default function ProductForm({
+export default async function ProductForm({
   initialData,
   pageTitle
 }: {
-  initialData: Product | null;
+  initialData: TNotes | null;
   pageTitle: string;
 }) {
-  const defaultValues = {
-    name: initialData?.name || '',
-    category: initialData?.category || '',
-    price: initialData?.price || 0,
-    description: initialData?.description || ''
-  };
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    values: defaultValues
-  });
+  const params = useParams();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Form submission logic would be implemented here
+  const form = useForm<z.infer<typeof ZNotesInput>>({
+    resolver: zodResolver(ZNotesInput),
+    defaultValues: initialData ? {
+      ...initialData,
+      price: parseFloat(String(initialData?.price)),
+    } : {
+      name: '',
+      category: '',
+      price: 0,
+      image: [],
+      accessType: 'FREE',
+      year: 1,
+      degree: 'BCOM',
+      stream: undefined,
+      semester: 1
+    }
+  });               
+
+  const onSubmit = async (data: TNotesInput) =>  {
+    try {
+      setLoading(true);
+
+      const response = initialData 
+        ? await axios.patch(`/api/notes/${params.notesId}`, data)
+        : await axios.post('/api/notes', data);
+
+      toast.success(
+        initialData
+          ? 'Notes updated successfully'
+          : 'Notes created successfully'
+      );
+
+      router.refresh()
+      // router.push('/dashboard/product');
+    } catch (error) {
+        toast.error('Something went wrong');
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
   }
 
   return (
@@ -96,17 +105,30 @@ export default function ProductForm({
                   <FormItem className='w-full'>
                     <FormLabel>Images</FormLabel>
                     <FormControl>
-                      <FileUploader
+                      {/* <FileUploader
                         value={field.value}
                         onValueChange={field.onChange}
                         maxFiles={4}
                         maxSize={4 * 1024 * 1024}
-                        // disabled={loading}
+                        // disabled={loading}s
                         // progresses={progresses}
                         // pass the onUpload function here for direct upload
                         // onUpload={uploadFiles}
                         // disabled={isUploading}
+                      /> */}
+
+                      <ImageUpload
+                          value={field.value.map(image => image.url)}  // Convert to array of strings
+                          disabled={loading}
+                          onChange={(url) => field.onChange([...field.value, { url }])}
+                          onRemove={(url) => field.onChange(field.value.filter(image => image.url !== url))}
                       />
+                    
+                      {/* add the console log with field.value*/}
+                      {/* {(() => {
+                        console.log('Current field value:', field.value);
+                        return null;
+                      })()} */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -140,18 +162,24 @@ export default function ProductForm({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select categories' />
+                          <SelectValue placeholder='Select semester' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='beauty'>Beauty Products</SelectItem>
+                        {[1, 2, 3, 4, 5, 6].map((sem) => (
+                          <SelectItem key={sem} value={String(sem)}>
+                            {sem}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                        {/* <SelectItem value='beauty'>Beauty Products</SelectItem>
                         <SelectItem value='electronics'>Electronics</SelectItem>
                         <SelectItem value='clothing'>Clothing</SelectItem>
                         <SelectItem value='home'>Home & Garden</SelectItem>
                         <SelectItem value='sports'>
                           Sports & Outdoors
-                        </SelectItem>
-                      </SelectContent>
+                        </SelectItem> */}
+                      {/* </SelectContent> */}
                     </Select>
                     <FormMessage />
                   </FormItem>
