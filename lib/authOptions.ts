@@ -7,7 +7,6 @@ import { verifyPassword } from "./auth/utils";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "./constants";
 import { verifyToken } from "./jwt";
 import { createUser, getUserByEmail, updateUser } from "./user/service";
-import { cookies } from "next/headers";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -39,7 +38,6 @@ export const authOptions: NextAuthOptions = {
           user = await prisma.user.findUnique({
             where: { email: credentials?.email },
           });
-          console.log("User found", user);
         } catch (e) {
           console.error(e);
           throw Error("Internal server error. Please try again later");
@@ -53,11 +51,19 @@ export const authOptions: NextAuthOptions = {
             throw new Error("No user matches the provided credentials");
           }
 
-          if (user.role !== "ADMIN") {
+          if (user.role === "USER") {
             const isValid = await verifyPassword(credentials.password, user.password);
             
             if (!isValid) {
               throw new Error("No user matches the provided credentials");
+            }
+          }
+
+          if (user.role === "ADMIN") {
+            const isValid = credentials.password === user.password;
+
+            if (!isValid) {
+              throw new Error("No user matches the provided credentials")
             }
           }
 
@@ -136,7 +142,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token }) {
       const existingUser = await getUserByEmail(token?.email!);
-      console.log("JWT", token, existingUser);
 
       if (!existingUser) {
         return token;

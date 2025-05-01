@@ -47,7 +47,6 @@ export const SigninForm = () => {
 
             if (!signInResponse?.error) {
                 router.push(searchParams?.get("callbackUrl") || "/");
-                console.log("Sign in successful:", signInResponse);
             }
         } catch (error: any) {
             const errorMessage = error.toString();

@@ -19,8 +19,6 @@ export const POST = async (request: Request) => {
             where: { id: user.id},
             data: { password: hashedPassword },
         });
-        console.log(token)
-        console.log(hashedPassword)
         await sendPasswordResetNotifyEmail(user);
         return Response.json({});
     } catch (e: any) {

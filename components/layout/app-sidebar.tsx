@@ -45,7 +45,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Icons } from '../icons';
-import { OrgSwitcher } from '@/app/(app)/dashboard/components/org-switcher';
+// import { OrgSwitcher } from '@/app/(app)/dashboard/components/org-switcher';
 export const company = {
   name: 'Acme Inc',
   logo: IconPhotoUp,
@@ -76,11 +76,11 @@ export default function AppSidebar() {
   return (
     <Sidebar collapsible='icon'>
       <SidebarHeader>
-        <OrgSwitcher
+        {/* <OrgSwitcher
           // tenants={tenants}
           // defaultTenant={activeTenant}
           // onTenantSwitch={handleSwitchTenant}
-        />
+        /> */}
       </SidebarHeader>
       <SidebarContent className='overflow-x-hidden'>
         <SidebarGroup>

@@ -82,15 +82,15 @@ model Notes {
   uploaderId  String      @db.ObjectId
   name        String      
   accessType  AccessType 
-  year        Int         
+  // year        Int add in question paper year means year of question paper or year of notes         
   degree      Degree     
   stream      String?      
   semester    Int         
-  image       Image[]
+  images      Images[]
   price       Float?      @default(0.0)      
 }
 
-model Image {
+model Images {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
   notes     Notes   @relation(fields: [notesId], references: [id])
   notesId   String  @db.ObjectId
@@ -100,3 +100,10 @@ model Image {
 
   @@index([notesId])
 }
+
+model Upload {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  url    String
+  publicId String
+  createdAt DateTime @default(now())
+} 

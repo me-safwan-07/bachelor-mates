@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui/Button";
 import { TUser } from "@/types/user";
 import { motion } from "framer-motion"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
+import { getUser } from "@/lib/user/service";
 
 const routes = [
   { href: "/", label: "Home", icon: Home },
@@ -21,6 +24,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ user }: NavbarProps) {
+
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -91,7 +95,7 @@ export default function Navbar({ user }: NavbarProps) {
             {/* Desktop Auth Buttons */}
             <div className="flex gap-2">
               {user ? (
-                <Link href="/dashboard">
+                <Link href={user.role === 'USER' ? '/dashboard/' : '/admin-dashboard'}>
                   <Button variant="secondary">
                     <User className="h-4 w-4 mr-2" />
                     Profile
@@ -149,7 +153,7 @@ export default function Navbar({ user }: NavbarProps) {
               <div className="flex flex-col gap-2">
                 {user ? (
                   <Link
-                    href="/dashboard"
+                    href={user.role === 'USER' ? '/dashboard/' : '/admin-dashboard'}
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-accent"
                   >

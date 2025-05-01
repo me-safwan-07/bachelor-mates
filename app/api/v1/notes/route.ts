@@ -1,102 +1,57 @@
-import { NextResponse } from 'next/server';
-import { ZNotesInput } from '@/types/notes';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/authOptions';
-import { prisma } from '@/prisma';
-import { getUser } from '@/lib/user/service';
+import { prisma } from "@/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-  try {
-    const session = await getServerSession(authOptions);
-    
-    if (!session?.user.id) {
-      return new NextResponse('Unauthorized', { status: 401 });
-    }
+export async function POST(req: NextRequest) {
+    try {
+        const body = await req.json();
+        const { 
+            name,
+            degree,
+            stream,
+            semester,
+            accessType,
+            price,
+            uploaderId,
+            images,
+        } = body;
 
-    const user = await getUser(session?.user?.id);
+        console.log(`body data: ${body}`);
 
-    if (user?.role !== 'ADMIN') {
-      return new NextResponse('Forbidden', { status: 403 });
-    }
-    
-
-    const body = await req.json();
-    const validatedData = ZNotesInput.parse(body);
-
-    // Create the notes
-    const notes = await prisma.notes.create({
-      data: {
-        name: validatedData.name,
-        accessType: validatedData.accessType,
-        year: validatedData.year,
-        degree: validatedData.degree,
-        stream: validatedData.stream,
-        semester: validatedData.semester,
-        price: validatedData.price || 0,
-        uploaderId: user.id,
-        image: {
-          create: validatedData.image.map(img => ({ url: img.url }))
+        if (!name || !degree || !semester || !accessType || !uploaderId) {
+            return NextResponse.json(
+                { error: "Missing required fields" },
+                { status: 400 }
+            )
         }
-      },
-      include: {
-        image: true
-      }
-    });
 
-    return NextResponse.json(notes, { status: 201 });
-  } catch (error) {
-    console.error('[NOTES_POST]', error);
-    return new NextResponse('Internal error', { status: 500 });
-  }
+        const note = await prisma.notes.create({
+            data: {
+                name,
+                degree,
+                stream,
+                semester,
+                accessType,
+                price,
+                uploaderId,
+                images: {
+                    create: images.map((img: { url: string }) => ({
+                      url: img.url,
+                    })) || [],
+                }
+                  
+            },
+            include: {
+                images: true,
+            }
+        });
+
+        return NextResponse.json(note, { status: 201 });
+    } catch (error) {
+        console.error("Error creating note:", error);
+        console.log(error)
+        return NextResponse.json(
+            { error: "Internal Server Error" },
+            { status: 500 }
+        );
+    }
 }
-
-// export async function PATCH(
-//   req: Request,
-//   { params }: { params: { notesId: string } }
-// ) {
-//   try {
-//     const session = await getServerSession(authOptions);
-    
-//     if (!session) {
-//       return new NextResponse('Unauthorized', { status: 401 });
-//     }
-
-//     const body = await req.json();
-//     const validatedData = ZNotesInput.parse(body);
-
-//     // First delete all existing images
-//     await prisma.image.deleteMany({
-//       where: {
-//         notesId: params.notesId
-//       }
-//     });
-
-//     // Update the notes
-//     const notes = await prisma.notes.update({
-//       where: {
-//         id: params.notesId
-//       },
-//       data: {
-//         name: validatedData.name,
-//         accessType: validatedData.accessType,
-//         year: validatedData.year,
-//         degree: validatedData.degree,
-//         stream: validatedData .stream,
-//         semester: validatedData.semester,
-//         category: validatedData.category,
-//         price: validatedData.price || 0,
-//         image: {
-//           create: validatedData.image.map(img => ({ url: img.url }))
-//         }
-//       },
-//       include: {
-//         image: true
-//       }
-//     });
-
-//     return NextResponse.json(notes);
-//   } catch (error) {
-//     console.error('[NOTES_PATCH]', error);
-//     return new NextResponse('Internal error', { status: 500 });
-//   }
-// }
