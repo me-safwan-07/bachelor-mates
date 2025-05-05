@@ -1,15 +1,74 @@
+'use client';
+
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileText, Download, Filter, Search } from "lucide-react";
-import { CartButton } from "@/components/cart-button";
+import { Filter, Search } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Note } from "@/types/notes";
+import { getNotes } from "@/lib/api/notes";
+import { PdfThumbnail } from "@/components/pdf-preview";
 
 export default function MaterialsPage() {
+  const [state, setState] = useState({
+    notes: [] as Note[],
+    totalNotes: 0,
+    page: 1,
+    search: "",
+    loading: true,
+    error: null as string | null,
+  });
+
+  const fetchNotes = useCallback(async () => {
+    setState(prev => ({ ...prev, loading: true, error: null }));
+    
+    try {
+      const data = await getNotes({ 
+        page: state.page, 
+        limit: 10, 
+        search: state.search 
+      });
+  
+      setState(prev => ({
+        ...prev,
+        notes: data.notes,
+        totalNotes: data.total_Notes,
+        loading: false,
+      }));
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        error: "Failed to load notes. Please try again.",
+        loading: false,
+      }));
+      console.error("Error fetching notes:", error);
+    }
+  }, [state.page, state.search]);
+
+  useEffect(() => {
+    fetchNotes();
+  }, [fetchNotes]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState(prev => ({ 
+      ...prev, 
+      search: e.target.value,
+      page: 1,
+    }));
+  };
+
   return (
     <div className="container py-10">
+      {state.error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative mb-4">
+          {state.error}
+        </div>
+      )}
+      
       <div className="flex flex-col space-y-6">
+        {/* Header */}
         <div className="flex flex-col space-y-2">
           <h1 className="text-3xl font-bold tracking-tight">Study Materials</h1>
           <p className="text-muted-foreground">
@@ -25,275 +84,57 @@ export default function MaterialsPage() {
               type="search"
               placeholder="Search materials..."
               className="w-full bg-background pl-8 md:w-[300px] lg:w-[400px]"
+              value={state.search}
+              onChange={handleSearch}
             />
           </div>
-          <Button   size="sm" className="h-9 gap-1">
+          <Button size="sm" className="h-9 gap-1">
             <Filter className="h-4 w-4" />
             <span>Filters</span>
           </Button>
         </div>
 
         {/* Materials Tabs */}
-        <Tabs defaultValue="notes" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 md:w-[400px]">
-            <TabsTrigger value="notes">Notes</TabsTrigger>
-            <TabsTrigger value="question-papers">Question Papers</TabsTrigger>
-            <TabsTrigger value="syllabus">Syllabus</TabsTrigger>
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 md:w-[500px]">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="bba">BBA</TabsTrigger>
+            <TabsTrigger value="bcom">BCOM</TabsTrigger>
+            <TabsTrigger value="bca">BCA</TabsTrigger>
           </TabsList>
           
-          {/* Notes Tab */}
-          <TabsContent value="notes" className="mt-6">
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  id: "1",
-                  title: "Introduction to Computer Science",
-                  subject: "Computer Science",
-                  semester: "1st Semester",
-                  pages: 45,
-                  downloads: 1250,
-                },
-                {
-                  id: "2",
-                  title: "Data Structures and Algorithms",
-                  subject: "Computer Science",
-                  semester: "2nd Semester",
-                  pages: 68,
-                  downloads: 980,
-                },
-                {
-                  id: "3",
-                  title: "Principles of Economics",
-                  subject: "Economics",
-                  semester: "1st Semester",
-                  pages: 52,
-                  downloads: 875,
-                },
-                {
-                  id: "4",
-                  title: "Organic Chemistry Fundamentals",
-                  subject: "Chemistry",
-                  semester: "2nd Semester",
-                  pages: 63,
-                  downloads: 720,
-                },
-                {
-                  id: "5",
-                  title: "Calculus and Analytical Geometry",
-                  subject: "Mathematics",
-                  semester: "1st Semester",
-                  pages: 75,
-                  downloads: 1430,
-                },
-                {
-                  id: "6",
-                  title: "Digital Electronics",
-                  subject: "Electronics",
-                  semester: "3rd Semester",
-                  pages: 58,
-                  downloads: 690,
-                },
-              ].map((material) => (
-                <Card key={material.id}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">{material.title}</CardTitle>
-                    <CardDescription>
-                      {material.subject} • {material.semester}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pb-3">
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <FileText className="h-4 w-4" />
-                        <span>{material.pages} pages</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Download className="h-4 w-4" />
-                        <span>{material.downloads} downloads</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex gap-2">
-                    <Button className="flex-1"   >
-                      <Link href={`/materials/notes/${material.id}`}>
-                        Download PDF
-                      </Link>
-                    </Button>
-                    <CartButton itemId={material.id} />
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-          
-          {/* Question Papers Tab */}
-          <TabsContent value="question-papers" className="mt-6">
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  id: "7",
-                  title: "Computer Science Final Exam",
-                  subject: "Computer Science",
-                  year: "2024",
-                  pages: 12,
-                  downloads: 950,
-                },
-                {
-                  id: "8",
-                  title: "Economics Mid-Term",
-                  subject: "Economics",
-                  year: "2023",
-                  pages: 8,
-                  downloads: 780,
-                },
-                {
-                  id: "9",
-                  title: "Organic Chemistry Final",
-                  subject: "Chemistry",
-                  year: "2024",
-                  pages: 10,
-                  downloads: 620,
-                },
-                {
-                  id: "10",
-                  title: "Calculus Final Exam",
-                  subject: "Mathematics",
-                  year: "2023",
-                  pages: 14,
-                  downloads: 1120,
-                },
-                {
-                  id: "11",
-                  title: "Digital Electronics Mid-Term",
-                  subject: "Electronics",
-                  year: "2024",
-                  pages: 9,
-                  downloads: 540,
-                },
-                {
-                  id: "12",
-                  title: "Physics Practical Exam",
-                  subject: "Physics",
-                  year: "2023",
-                  pages: 6,
-                  downloads: 830,
-                },
-              ].map((paper) => (
-                <Card key={paper.id}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">{paper.title}</CardTitle>
-                    <CardDescription>
-                      {paper.subject} • {paper.year}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pb-3">
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <FileText className="h-4 w-4" />
-                        <span>{paper.pages} pages</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Download className="h-4 w-4" />
-                        <span>{paper.downloads} downloads</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex gap-2">
-                    <Button className="flex-1"   >
-                      <Link href={`/materials/question-papers/${paper.id}`}>
-                        Download PDF
-                      </Link>
-                    </Button>
-                    <CartButton itemId={paper.id} />
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-          
-          {/* Syllabus Tab */}
-          <TabsContent value="syllabus" className="mt-6">
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  id: "13",
-                  title: "Computer Science Curriculum",
-                  department: "Computer Science",
-                  year: "2024-2025",
-                  pages: 18,
-                  downloads: 1450,
-                },
-                {
-                  id: "14",
-                  title: "Economics Program Syllabus",
-                  department: "Economics",
-                  year: "2024-2025",
-                  pages: 15,
-                  downloads: 980,
-                },
-                {
-                  id: "15",
-                  title: "Chemistry Course Structure",
-                  department: "Chemistry",
-                  year: "2024-2025",
-                  pages: 20,
-                  downloads: 820,
-                },
-                {
-                  id: "16",
-                  title: "Mathematics Degree Program",
-                  department: "Mathematics",
-                  year: "2024-2025",
-                  pages: 16,
-                  downloads: 1230,
-                },
-                {
-                  id: "17",
-                  title: "Electronics Engineering Syllabus",
-                  department: "Electronics",
-                  year: "2024-2025",
-                  pages: 22,
-                  downloads: 740,
-                },
-                {
-                  id: "18",
-                  title: "Physics Program Structure",
-                  department: "Physics",
-                  year: "2024-2025",
-                  pages: 19,
-                  downloads: 930,
-                },
-              ].map((syllabus) => (
-                <Card key={syllabus.id}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">{syllabus.title}</CardTitle>
-                    <CardDescription>
-                      {syllabus.department} • {syllabus.year}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pb-3">
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <FileText className="h-4 w-4" />
-                        <span>{syllabus.pages} pages</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Download className="h-4 w-4" />
-                        <span>{syllabus.downloads} downloads</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex gap-2">
-                    <Button className="flex-1"   >
-                      <Link href={`/materials/syllabus/${syllabus.id}`}>
-                        Download PDF
-                      </Link>
-                    </Button>
-                    <CartButton itemId={syllabus.id} />
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
+          {/* All Notes Tab */}
+          <TabsContent value="all" className="mt-6">
+            {state.loading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+              </div>
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {state.notes.map((note) => (
+                  <Card key={note.id} className="flex flex-col h-full">
+                    {note.images?.[0]?.url && (
+                      <PdfThumbnail
+                        pdfUrl={note.images[0].url} 
+                      />
+                    )}
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-lg line-clamp-2">{note.name}</CardTitle>
+                      <CardDescription className="line-clamp-1">
+                        {note.degree} {note.stream && `(${note.stream})`} • {note.semester} Semester
+                      </CardDescription>
+                    </CardHeader>
+                    <CardFooter className="mt-auto flex gap-2">
+                      <Button className="flex-1 text-center cursor-pointer">
+                        <Link href={`/materials/notes/${note.id}`}>
+                          Download PDF
+                        </Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

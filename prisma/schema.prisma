@@ -92,7 +92,7 @@ model Notes {
 
 model Images {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  notes     Notes   @relation(fields: [notesId], references: [id])
+  notes     Notes   @relation(fields: [notesId], references: [id], onDelete: Cascade)
   notesId   String  @db.ObjectId
   url       String
   createdAt DateTime @default(now()) @map(name: "created_at")

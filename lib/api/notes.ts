@@ -8,7 +8,7 @@ interface FetchNotesParams {
   selectedDegree?: string
 }
 
-export async function fetchNotesAPI({
+export async function getNotes({
   page,
   limit,
   search,

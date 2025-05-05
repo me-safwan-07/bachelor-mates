@@ -1,5 +1,7 @@
 // lib/notes/services.ts
 import { prisma } from "@/prisma";
+import { DatabaseError } from "@/types/errors";
+import { Prisma, Degree } from "@prisma/client";
 
 type GetNotesFilters = {
   page?: string | number;
@@ -7,6 +9,28 @@ type GetNotesFilters = {
   search?: string;
   categories?: string; // Comma-separated degree values
 };
+
+const selectedNotes = {
+  id: true,
+  createdAt: true,
+  updatedAt: true,     
+  uploaderId: true,
+  name: true,
+  accessType: true,
+  degree: true,
+  stream: true,
+  semester: true,
+  price: true,
+  images: {
+    select: {
+      id: true,
+      notesId: true,
+      url: true,
+      createdAt: true, 
+    }
+  }
+};
+
 
 export async function getNotes(filters: GetNotesFilters) {
   const { 
@@ -19,7 +43,7 @@ export async function getNotes(filters: GetNotesFilters) {
   const pageNumber = Number(page);
   const pageSize = Number(limit);
 
-  const whereClause: any = {};
+  const whereClause: Prisma.NotesWhereInput = {};
 
   if (search) {
     whereClause.name = {
@@ -29,7 +53,7 @@ export async function getNotes(filters: GetNotesFilters) {
   }
 
   if (categories) {
-    const degreeList = categories.split(",");
+    const degreeList = categories.split(",") as Degree[];
     whereClause.degree = {
       in: degreeList
     }
@@ -67,3 +91,25 @@ export async function getNotes(filters: GetNotesFilters) {
     notes: transformedNotes,
   };
 }
+
+export const deleteNotes = async (notesId: string) => {
+  try {
+    const deletedNotes = await prisma.notes.delete({
+      where: { id: notesId },
+      select: selectedNotes,
+    });
+
+    if (!deletedNotes) {
+      throw new Error("Notes not found");
+    }
+
+    return deletedNotes;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.error(error);
+      throw new DatabaseError(error.message);
+    }
+
+    throw error;
+  }
+};

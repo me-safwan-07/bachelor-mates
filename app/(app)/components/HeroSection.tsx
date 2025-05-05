@@ -17,7 +17,7 @@ export const HeroSection = () => {
                 </SlideIn>
                 <FadeIn delay={0.2}>
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                    Your Ultimate Study
+                    Your Ultimate Study 
                     <span className="block text-primary mt-2 md:mt-3 gradient-hover">Material Platform</span>
                 </h1>
                 </FadeIn>

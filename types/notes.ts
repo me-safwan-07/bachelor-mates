@@ -44,3 +44,30 @@ export const ZNotes = z.object({
 });
 
 export type TNotes = z.infer<typeof ZNotes>;
+
+// types/note.ts
+export type AccessType = "FREE" | "PAID"
+export type Degree = "BCOM" | "BBA" | "BCA"
+
+export interface Images {
+  url: string
+}
+
+export interface Note {
+  id: string
+  name: string
+  accessType: AccessType
+  degree: Degree
+  stream: string | null
+  semester: number
+  price: number | null
+  uploader: string
+  images: Images[]
+  createdAt: string
+  updatedAt: string
+}
+
+export interface NotesResponse {
+  total_Notes: number
+  notes: Note[]
+}

@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { getNotes } from "@/lib/notes/services"
+import { deleteNotes, getNotes } from "@/lib/notes/services"
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,5 +22,23 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Error fetching notes:", error)
     return NextResponse.json({ error: "Failed to fetch notes" }, { status: 500 })
+  }
+}
+
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const id = body.id;
+
+    if (!id) {
+      return NextResponse.json({ message: 'Note ID is required in body' }, { status: 400 });
+    }
+
+    const deletedNote = await deleteNotes(id);
+    return NextResponse.json({ message: 'Note deleted successfully', deletedNote });
+  } catch (error) {
+    console.error('Error deleting note:', error);
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }
