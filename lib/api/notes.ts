@@ -30,3 +30,16 @@ export async function getNotes({
   const data: NotesResponse = await response.json()
   return data
 }
+
+
+export async function getNoteById({notesId} : { notesId: string }) {
+  const response  = await fetch(`/api/notes/${notesId}`)
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`)
+  }
+
+  const data = await response.json();
+  
+  return data;
+}
