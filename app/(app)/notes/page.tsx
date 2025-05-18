@@ -9,7 +9,7 @@ import { Filter, Search } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Note } from "@/types/notes";
 import { getNotes } from "@/lib/api/notes";
-import { PdfThumbnail } from "@/components/pdf-preview";
+import { PdfThumbnail } from "@/components/pdf-preview/pdf-thumbnail";
 
 export default function MaterialsPage() {
   const [state, setState] = useState({
@@ -120,14 +120,28 @@ export default function MaterialsPage() {
                     )}
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg line-clamp-2">{note.name}</CardTitle>
-                      <CardDescription className="line-clamp-1">
+                      <CardDescription className="line-clamp-1 flex">
                         {note.degree} {note.stream && `(${note.stream})`} • {note.semester} Semester
+                        <div className="text-lg font-bold text-foreground">
+                          {note.accessType === 'PAID' && (
+                            `₹ ${note.price}`
+                          )}
+                        </div>
                       </CardDescription>
+                      
                     </CardHeader>
+                    {/* <CardContent> */}
+                      {/* <CardTitle>write the code to get the total page from the pdf</CardTitle> */}
+                        {/* <div className="text-lg font-bold text-foreground">
+                          {note.accessType === 'PAID' && (
+                          `₹ ${note.price}`
+                          )}
+                        </div>
+                    </CardContent> */}
                     <CardFooter className="mt-auto flex gap-2">
                       <Button className="flex-1 text-center cursor-pointer">
-                        <Link href={`/materials/notes/${note.id}`}>
-                          Download PDF
+                        <Link href={`/notes/${note.id}`}>
+                          {note.accessType === "FREE" ? "Download PDF" : "Purchase Now"}
                         </Link>
                       </Button>
                     </CardFooter>

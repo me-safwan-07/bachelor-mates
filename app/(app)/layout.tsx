@@ -20,7 +20,7 @@ declare module "next-auth" {
 
 const AppLayout = async({ children }: { children: React.ReactNode }) => {
     const session = await getServerSession(authOptions)
-    const user = session?.user?.id ? await getUser(session.user.id) : null
+    const user = session?.user?.id ? await getUser(session.user.id) : null;
     
     return (
         <>

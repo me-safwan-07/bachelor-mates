@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Search, BookOpen, Menu, X, Home, User, Briefcase, FileText } from "lucide-react";
+import { BookOpen, Home, User, Briefcase, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/Button";
 import { TUser } from "@/types/user";
 import { motion } from "framer-motion"
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import { getUser } from "@/lib/user/service";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "@/lib/authOptions";
+// import { getUser } from "@/lib/user/service";
 
 const routes = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/materials", label: "Materials", icon: User },
+  { href: "/notes", label: "Notes ", icon: User },
   { href: "/premium", label: "Premium", icon: Briefcase },
   { href: "/dashboard/overview", label: "Dashboard", icon: FileText },
 ];
@@ -26,23 +26,23 @@ interface NavbarProps {
 export default function Navbar({ user }: NavbarProps) {
 
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
   const [activeTab, setActiveTab] = useState(pathname === "/" ? "Home" : 
                                            routes.find(route => pathname.startsWith(route.href))?.label || "Home");
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
-        setIsMenuOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth < 768);
+  //     if (window.innerWidth >= 768) {
+  //       setIsMenuOpen(false);
+  //     }
+  //   };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   // Update active tab when pathname changes
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function Navbar({ user }: NavbarProps) {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="flex items-center gap-6">
+          {/* <nav className="flex items-center gap-6">
             {routes.map((item) => {
               const isActive = pathname === item.href || 
                 (item.href !== "/" && pathname.startsWith(item.href));
@@ -83,14 +83,14 @@ export default function Navbar({ user }: NavbarProps) {
                 </Link>
               );
             })}
-          </nav>
+          </nav> */}
 
           {/* Right side items (search, auth) */}
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
+            {/* <Button variant="ghost" size="icon">
               <Search className="h-4 w-4" />
               <span className="sr-only">Search</span>
-            </Button>
+            </Button> */}
 
             {/* Desktop Auth Buttons */}
             <div className="flex gap-2">
@@ -118,7 +118,7 @@ export default function Navbar({ user }: NavbarProps) {
 
       {/* Mobile Header (shown only on smaller screens) */}
       <header className="md:hidden sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="px-2 flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2">
@@ -126,35 +126,19 @@ export default function Navbar({ user }: NavbarProps) {
               <span className="font-bold">Bachelor-Mate</span>
             </Link>
           </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              <span className="sr-only">Toggle Menu</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Dropdown Menu */}
-        {isMenuOpen && (
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute left-0 right-0 bg-background shadow-lg border-t"
+            className=" left-0 right-0  border-t"
           >
-            <div className="container py-4">
-              <div className="flex flex-col gap-2">
+            <div className="py-4">
+              <div className="flex flex-row gap-2">
                 {user ? (
                   <Link
                     href={user.role === 'USER' ? '/dashboard/' : '/admin-dashboard'}
-                    onClick={() => setIsMenuOpen(false)}
+                    // onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-accent"
                   >
                     <User className="h-4 w-4" />
@@ -164,26 +148,43 @@ export default function Navbar({ user }: NavbarProps) {
                   <>
                     <Link
                       href="/auth/login"
-                      onClick={() => setIsMenuOpen(false)}
+                      // onClick={() => setIsMenuOpen(false)}
                       className="w-full"
                     >
-                      <Button variant="darkCTA" className="w-full">
+                      <Button variant="darkCTA" className="w-full px-3">
                         Login
                       </Button>
                     </Link>
                     <Link
                       href="/auth/signup"
-                      onClick={() => setIsMenuOpen(false)}
+                      // onClick={() => setIsMenuOpen(false)}
                       className="w-full"
                     >
-                      <Button className="w-full">Register</Button>
+                      <Button variant="secondary" className="w-full px-3">Register</Button>
                     </Link>
                   </>
                 )}
               </div>
             </div>
           </motion.div>
-        )}
+
+          {/* Mobile Menu Button */}
+          {/* <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+          </div> */}
+        </div>
+
+        {/* Mobile Dropdown Menu */}
+        {/* {isMenuOpen && ( */}
+          
+        {/* )} */}
       </header>
 
       {/* Mobile Bottom Navigation - Fixed at bottom like mobile app */}

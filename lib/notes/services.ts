@@ -92,6 +92,20 @@ export async function getNotes(filters: GetNotesFilters) {
   };
 }
 
+
+export async function getNoteById(noteId: string) {
+  const data = await prisma.notes.findUnique({
+    where: {
+      id: noteId, 
+    },
+    include: {
+      images: true,
+    },
+  });
+  return data;
+}
+
+
 export const deleteNotes = async (notesId: string) => {
   try {
     const deletedNotes = await prisma.notes.delete({

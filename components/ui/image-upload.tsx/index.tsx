@@ -86,7 +86,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                     sources: ['local'],
                     resourceType: 'auto',
                     clientAllowedFormats: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
-                    maxFileSize: 5000000, // 5MB
+                    maxFileSize: 50000000, // 5MB
                     showPoweredBy: false
                 }}
             >
